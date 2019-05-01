@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace egui_project.ViewModel
 {
-    class YearViewModel
+   public class YearViewModel
     {
         ISet<string> years;
 
-        YearViewModel(ObservableCollection<Book> books)
+        public YearViewModel(ObservableCollection<Book> books)
         {
 
         }

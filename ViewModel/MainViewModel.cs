@@ -14,7 +14,8 @@ namespace egui_project.ViewModel
         public MainViewModel()
         {
             BookModel = new BookViewModel();
-            YearModel = new YearViewModel();
+            YearModel = new YearViewModel(BookModel.Books);
+         
         }
     }
 }
