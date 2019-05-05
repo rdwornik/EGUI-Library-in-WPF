@@ -17,7 +17,7 @@ namespace egui_project.Model
         private string title;
         private string year;
 
-    
+      
         public string Author
         {
             get { return title; }
@@ -25,6 +25,14 @@ namespace egui_project.Model
             {
                 title = value;
                 OnPropertyChanged("Author");
+            }
+        }
+
+        public string Error
+        {
+            get
+            {
+                return null;
             }
         }
 
@@ -48,13 +56,6 @@ namespace egui_project.Model
             }
         }
 
-       public void setBook(string author, string title, string year)
-        {
-            this.author = author;
-            this.title = title;
-            this.year = year;
-       
-        }
-
+    
     }
 }

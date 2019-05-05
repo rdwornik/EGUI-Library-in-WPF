@@ -2,6 +2,7 @@
 using egui_project.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,34 +23,60 @@ namespace egui_project.Views
     /// </summary>
     public partial class BookView : UserControl
     {
-        MainViewModel _main = new MainViewModel();
+        MainViewModel mainVM = new MainViewModel();
 
+       
+ 
         public BookView()
         {
             InitializeComponent();
-            this.DataContext = _main; 
+            this.DataContext = mainVM;  
         }
 
-        private void OpenAddBookWindow(object sender, RoutedEventArgs e)
+        private void OpenAddBookWindow_Click(object sender, RoutedEventArgs e)
         {
-            Book book = new Book();
-            AddBookWindow addBookWindow = new AddBookWindow(_main,book);
+            AddBookWindow addBookWindow = new AddBookWindow(mainVM);
             addBookWindow.ShowDialog();
-            //Binding myBinding = new Binding();
-            //myBinding.Source = _main.Books;
-            //myBinding.Mode = BindingMode.TwoWay;
-            //myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            //BindingOperations.SetBinding
-
-
         }
 
-        private void OpenEditWindow(object sender, RoutedEventArgs e)
+        private void OpenEditWindow_Click(object sender, RoutedEventArgs e)
         {
             Book item = (Book)dataGrid.SelectedItem;
-            AddBookWindow addBookWindow = new AddBookWindow(_main,item);          
-            addBookWindow.ShowDialog();
-            
+            EditBookWindow edit = new EditBookWindow(item,mainVM);
+            edit.ShowDialog();
+        }
+
+        private void DeleteItems_Click(object sender, RoutedEventArgs e)
+        {
+           System.Collections.IList items = (System.Collections.IList)dataGrid.SelectedItems;
+
+            if (dataGrid.SelectedItems.Count > 0)
+            {
+                var selectedBooks = items.Cast<Book>().ToList();
+
+                foreach (Book book in selectedBooks)
+                {
+                    Book toDel = (from bo in mainVM.Books
+                                  where bo == book
+                                  select bo
+                                  ).First();
+                    mainVM.Books.Remove(toDel);
+                }
+            }
+            mainVM.UpdateYears();
+        }
+
+        private void FilterItems_Click(object sender, RoutedEventArgs e)
+        {
+            mainVM.BooksView.Refresh();    
+        }
+
+        private void ClearFilter_Click(object sender, RoutedEventArgs e)
+        {
+            comboBox.SelectedIndex = -1;
+            FilterAuthor.Text = "";
+            FilterTitle.Text = "";
+            mainVM.BooksView.Refresh(); 
         }
     }
 }

@@ -12,32 +12,28 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using egui_project.ViewModel;
 
 namespace egui_project.Views
 {
     /// <summary>
-    /// Interaction logic for DialogView.xaml
+    /// Interaction logic for EditBookWindow.xaml
     /// </summary>
-    public partial class AddBookWindow : Window
+    public partial class EditBookWindow : Window
     {
         MainViewModel mainVM;
-        Book book;
 
-        public AddBookWindow(MainViewModel mainVM)
+        public EditBookWindow(Book book, MainViewModel mainVM)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.mainVM = mainVM;
-            this.book = new Book();
-            this.DataContext = book;          
+            this.DataContext = book;
         }
 
-        private void AddBook_Clicked(object sender, RoutedEventArgs e)
+        private void EditBook_Clicked(object sender, RoutedEventArgs e)
         {
             int number;
-            if (String.IsNullOrEmpty(TextBoxYear.Text) || String.IsNullOrEmpty(TextBoxAuthor.Text) || String.IsNullOrEmpty(TextBoxTitle.Text ))
+            if (String.IsNullOrEmpty(TextBoxYear.Text) || String.IsNullOrEmpty(TextBoxAuthor.Text) || String.IsNullOrEmpty(TextBoxTitle.Text))
                 MessageBox.Show("non of fields can be empty");
             else if ((!(Int32.TryParse(TextBoxYear.Text, out number))))
                 MessageBox.Show("The year must be integer");
@@ -45,16 +41,21 @@ namespace egui_project.Views
                 MessageBox.Show("The age must be between 10 and 3000");
             else
             {
-                Book item = (Book)(this.DataContext);
-                mainVM.Books.Insert(0, item);
+                BindingExpression author = TextBoxAuthor.GetBindingExpression(TextBox.TextProperty);
+                BindingExpression title = TextBoxTitle.GetBindingExpression(TextBox.TextProperty);
+                BindingExpression year = TextBoxYear.GetBindingExpression(TextBox.TextProperty);
+
+                author.UpdateSource();
+                title.UpdateSource();
+                year.UpdateSource();
                 mainVM.BooksView.Refresh();
                 mainVM.UpdateYears();
+                this.Close();
             }
         }
 
         private void Cancel_Clicked(object sender, RoutedEventArgs e)
         {
-            mainVM.BooksView.Refresh();
             this.Close();
         }
     }
