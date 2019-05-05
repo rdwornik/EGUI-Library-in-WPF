@@ -12,17 +12,83 @@
 
     <UserControl.Resources>
         <DataTemplate DataType = "{x:Type data:Book}">
-            
-            
-            
-            
+
         </DataTemplate>
+      
     </UserControl.Resources>
 
+<!--Filter Panel-->
+    
+    <StackPanel Margin="16">
+        <Label>Filter</Label>
+        <Border  BorderBrush="#000000" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" ></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
 
-    <Grid>
+                <Label Grid.Column="0" Margin ="2,4,2,4">Title</Label>
+                <TextBox Grid.Column="1" Margin ="2,4,2,4"></TextBox>
+                <Label Grid.Column="2" Margin ="2,4,2,4">Author</Label>
+                <TextBox Grid.Column="3" Margin ="2,4,2,4"></TextBox>
+                <Label Grid.Column="4" Margin ="2,4,2,4">Year</Label>
+                <ComboBox Grid.Column="5" Margin ="2,4,2,4"></ComboBox>
+                <Button Grid.Column="6" Margin ="4,4,1,4">Filter</Button>
+                <Button Grid.Column="7" Margin="1,4,4,4">Clear</Button>
+
+            </Grid>
+        </Border>
         
-    </Grid>
+<!--Table for books using data grid-->        
+        <DataGrid 
+                   ItemsSource="{Binding Books}" 
+                   SelectedItem="{Binding Book}"
+                   AutoGenerateColumns="False"
+                       Margin="0,12,0,12" HorizontalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="dataGrid" VerticalAlignment="Top" MaxHeight="150" IsReadOnly="True"
+                       Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                       >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Author" Width="3*"
+                    Binding="{Binding Author}"/>
+                <DataGridTextColumn Header="Title" Width="5*"
+                    Binding="{Binding Title}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Year" Width="*" 
+                    Binding="{Binding Year}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+<!--Add Edit Delete Buttons-->
+        
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Button DockPanel.Dock="Bottom" Grid.Column="0" Margin ="16,4,4,4" Click="OpenAddBookWindow" >Add</Button>
+            <Button DockPanel.Dock="Bottom" Grid.Column="1" Margin="4,4,4,4" Click="OpenEditWindow">Edit</Button>
+            <Button DockPanel.Dock="Bottom" Grid.Column="2" Margin ="4,4,16,4">Delete</Button>
+
+        </Grid>
+
+    </StackPanel>
+
+
+
 
 
 </UserControl>

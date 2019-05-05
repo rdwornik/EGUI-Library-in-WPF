@@ -1,4 +1,5 @@
-﻿using egui_project.ViewModel;
+﻿using egui_project.Model;
+using egui_project.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,29 @@ namespace egui_project.Views
         public BookView()
         {
             InitializeComponent();
-            this.DataContext = _main;
+            this.DataContext = _main; 
+        }
+
+        private void OpenAddBookWindow(object sender, RoutedEventArgs e)
+        {
+            Book book = new Book();
+            AddBookWindow addBookWindow = new AddBookWindow(_main,book);
+            addBookWindow.ShowDialog();
+            //Binding myBinding = new Binding();
+            //myBinding.Source = _main.Books;
+            //myBinding.Mode = BindingMode.TwoWay;
+            //myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            //BindingOperations.SetBinding
+
+
+        }
+
+        private void OpenEditWindow(object sender, RoutedEventArgs e)
+        {
+            Book item = (Book)dataGrid.SelectedItem;
+            AddBookWindow addBookWindow = new AddBookWindow(_main,item);          
+            addBookWindow.ShowDialog();
+            
         }
     }
 }

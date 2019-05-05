@@ -4,45 +4,57 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace egui_project.Model
 {
     class BookModel
     {
     }
-    public class Book //: INotifyPropertyChanged
+    public class Book : ObesrvableObject
     {
-        public string Author { get; set; }
-        public string Title { get; set; }
-        public string Year { get; set; }
+        private string author;
+        private string title;
+        private string year;
 
-      //  public event PropertyChangedEventHandler PropertyChanged;
+    
+        public string Author
+        {
+            get { return title; }
+            set
+            {
+                title = value;
+                OnPropertyChanged("Author");
+            }
+        }
 
-        //public string Author
-        //{
-        //    get { return title; }
-        //    set
-        //    {
-        //        title = value;
-        //    }
-        //}
+        public string Title
+        {
+            get { return author; }
+            set
+            {
+                author = value;
+                OnPropertyChanged("Title");
+            }
+        }
 
-        //public string Title
-        //{
-        //    get { return author; }
-        //    set
-        //    {
-        //        author = value;
-        //    }
-        //}
+        public string Year
+        {
+            get { return year; }
+            set
+            {
+                year = value;
+                OnPropertyChanged("Year");
+            }
+        }
 
-        //public string Year
-        //{
-        //    get { return year;  }
-        //    set
-        //    {
-        //        year = value;
-        //    }
-        //}     
+       public void setBook(string author, string title, string year)
+        {
+            this.author = author;
+            this.title = title;
+            this.year = year;
+       
+        }
+
     }
 }
